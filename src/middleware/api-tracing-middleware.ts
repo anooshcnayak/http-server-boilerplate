@@ -2,7 +2,7 @@ import { logger } from '../utils/logger';
 import MonitoringHelper from '../utils/monitoring/monitoring-helper';
 import {Express} from "express";
 
-function ApiTracingMiddleware(req: any, res: any, next: any): void {
+export default function ApiTracingMiddleware(req: any, res: any, next: any): void {
 	const startTime: number = Date.now();
 
 	let apiName: string = 'unknown';
@@ -42,5 +42,3 @@ function getApiName(req: any) {
 
 	return req.method + "-" + pathSplit.join(".");
 }
-
-export default ApiTracingMiddleware;

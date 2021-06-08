@@ -8,8 +8,7 @@ export default class ArticleQuery {
 
   private readonly tableName: string;
   private readonly articleFields: string[];
-
-
+  
   constructor(tableName: string) {
     this.tableName = tableName;
     this.articleFields = [

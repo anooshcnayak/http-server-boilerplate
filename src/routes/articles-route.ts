@@ -12,7 +12,6 @@ ArticlesRoute.get(
 	`/:articleId`,
 	articleIdValidation(),
 	BodyValidationMiddleware,
-
 );
 
 export default ArticlesRoute;
