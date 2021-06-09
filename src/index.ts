@@ -1,9 +1,11 @@
-require('dotenv').config(); // This should always be the first line of index to load config from env
-import Config from "./config/config";
+// This should always be the first line of index to load config from env
+import http from 'node:http';
+import Config from './config/config';
 import App from './app';
 import { logger } from './utils/logger';
-import http from 'http';
 import MonitoringHelper from './utils/monitoring/monitoring-helper';
+
+require('dotenv').config();
 
 App.init()
 	.then(() => {
@@ -15,12 +17,14 @@ App.init()
 
 		server.listen(httpServerConfig.PORT, () => {
 			MonitoringHelper.publishServerStartSuccess();
-			logger.info(`API Server Started :: Server is listening on ${httpServerConfig.PORT}`);
+			logger.info(
+				`API Server Started :: Server is listening on ${httpServerConfig.PORT}`,
+			);
 		});
 	})
-	.catch((err: Error) => {
-		logger.error('Unable to Start Server::: %s', JSON.stringify(err));
-		logger.error(err);
+	.catch((error: Error) => {
+		logger.error('Unable to Start Server::: %s', JSON.stringify(error));
+		logger.error(error);
 
 		MonitoringHelper.publishServerStartFailed();
 		process.exit(1);

@@ -19,7 +19,7 @@ class ServiceErrorUtil {
 
 	public static getBodyValidationError(message: any): ServiceError {
 		const error = ServiceError.get(ErrorCodes.BODY_VALIDATION_ERROR);
-		error.message = message
+		error.message = message;
 		return error;
 	}
 

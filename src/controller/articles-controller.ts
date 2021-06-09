@@ -1,7 +1,7 @@
 import ResponseUtil from '../utils/ResponseUtil';
 import { logger } from '../utils/logger';
 import RequestUtil from '../utils/RequestUtil';
-import ArticleService from "../services/article-service";
+import ArticleService from '../services/article-service';
 
 export default class ArticlesController {
 	/*
@@ -11,21 +11,18 @@ export default class ArticlesController {
 		const { reqId } = request;
 		try {
 			const articleId: number = RequestUtil.parseQueryParamAsNumber(
-					request.params,
-					'articleId',
+				request.params,
+				'articleId',
 			);
 
-			const response = await ArticleService.getArticle(
-				reqId,
-				articleId
-			);
+			const response = await ArticleService.getArticle(reqId, articleId);
 			logger.info(
 				`[ArticlesController] [getArticle] articleId: ${articleId} Success: %s `,
 				JSON.stringify(response),
 			);
 			ResponseUtil.sendSuccessResponse(res, response);
-		} catch (e) {
-			return next(e);
+		} catch (error) {
+			return next(error);
 		}
 	}
 }

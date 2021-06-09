@@ -17,12 +17,14 @@ module.exports = {
 		"plugin:promise/recommended",
 		"plugin:unicorn/recommended",
 		"plugin:prettier/recommended",
-		"prettier/@typescript-eslint",
 	],
 	env: {
 		node: true
 	},
 	rules: {
+		"@typescript-eslint/no-var-requires": 0,
+		"unicorn/prefer-module": 0,
+		"@typescript-eslint/no-explicit-any": 0,
 		// Too restrictive, writing ugly code to defend against a very unlikely scenario: https://eslint.org/docs/rules/no-prototype-builtins
 		"no-prototype-builtins": "off",
 		// https://basarat.gitbooks.io/typescript/docs/tips/defaultIsBad.html

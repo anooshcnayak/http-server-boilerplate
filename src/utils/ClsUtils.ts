@@ -13,29 +13,29 @@ class ClsUtils {
 	}
 
 	static addSocketIdToRequestNS(socketId: string): void {
-		const prevValue: string =
+		const previousValue: string =
 			this.requestNamespace?.get(Constants.CLS.requestInfoKey) || '';
 		this.requestNamespace?.set(
 			Constants.CLS.requestInfoKey,
-			prevValue + ` [socketId-${socketId}] `,
+			`${previousValue} [socketId-${socketId}] `,
 		);
 	}
 
 	static addRequestIdToRequestNS(requestId: any): void {
-		const prevValue: string =
+		const previousValue: string =
 			this.requestNamespace?.get(Constants.CLS.requestInfoKey) || '';
 		this.requestNamespace?.set(
 			Constants.CLS.requestInfoKey,
-			prevValue + `[${requestId}]`,
+			`${previousValue}[${requestId}]`,
 		);
 	}
 
 	static addUserIdToRequestNS(userId: any): void {
-		const prevValue: string =
+		const previousValue: string =
 			this.requestNamespace?.get(Constants.CLS.requestInfoKey) || '';
 		this.requestNamespace?.set(
 			Constants.CLS.requestInfoKey,
-			prevValue + ` [user-${userId}]`,
+			`${previousValue} [user-${userId}]`,
 		);
 	}
 

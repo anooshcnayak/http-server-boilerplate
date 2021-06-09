@@ -1,17 +1,17 @@
 const CONF: any = {
 	APP_NAME: process.env.APP_NAME || 'api-server-boilerplate',
 	HTTP_SERVER: {
-		PORT: process.env.HTTP_SERVER_PORT || '4000'
+		PORT: process.env.HTTP_SERVER_PORT || '4000',
 	},
 
 	MONITORING: {
 		PREFIX: process.env.MONITORING_PREFIX || 'api-server-boilerplate',
-		PORT: process.env.MONITORING_PORT || 8125
+		PORT: process.env.MONITORING_PORT || 8125,
 	},
 
-	DATABASE: {
+	DATABASE: {},
 
-	}
+	LOGGING: {},
 };
 
 export interface MonitoringConfig {
@@ -24,29 +24,42 @@ export interface HttpServerConfig {
 }
 
 export interface DBConfig {
-	Endpoint      :string;
-	Port          :number;
-	Username      :string;
-	Password      :string;
-	DatabaseName  :string;
-	DriverName    :string;
-	SslMode       :string;
-	MaxConnection :number;
+	Endpoint: string;
+	Port: number;
+	Username: string;
+	Password: string;
+	DatabaseName: string;
+	DriverName: string;
+	SslMode: string;
+	MaxConnection: number;
 }
 
-class Config {
+export interface LoggingConfig {
+	LogDir: string;
+	FileName: string;
+	MaxSize: number; // MB
+	MaxAge: number; // Days
+	LogConsole: boolean;
+	LogFile: boolean;
+	LogLevel: string;
+}
 
-	static getAppName(): string {
+const Config = {
+	getAppName(): string {
 		return CONF.appName;
-	}
+	},
 
-	static getHttpServerConfig(): HttpServerConfig {
+	getHttpServerConfig(): HttpServerConfig {
 		return CONF.HTTP_SERVER;
-	}
+	},
 
-	static getDBConfig(): DBConfig {
+	getDBConfig(): DBConfig {
 		return CONF.DATABASE;
+	},
+
+	getLoggingConfig(): LoggingConfig {
+		return CONF.LOGGING;
 	}
-}
+};
 
 export default Config;

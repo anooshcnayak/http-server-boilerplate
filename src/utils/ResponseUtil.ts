@@ -1,8 +1,8 @@
 import ServiceError from '../errors/service-error';
+
 const ResponseUtil = (function () {
 	return {
-
-		sendSuccessResponse: function (res: any, responseBody: any) {
+		sendSuccessResponse(res: any, responseBody: any) {
 			res.send({
 				status: {
 					success: true,
@@ -11,15 +11,15 @@ const ResponseUtil = (function () {
 			});
 		},
 
-		sendErrorResponse: function (res: any, error: ServiceError) {
-			let obj = {
+		sendErrorResponse(res: any, error: ServiceError) {
+			const object = {
 				success: false,
 				errorName: error.name,
 				errorCode: error.code,
 				errorMsg: error.message,
 			};
 			res.send({
-				status: obj,
+				status: object,
 			});
 		},
 	};

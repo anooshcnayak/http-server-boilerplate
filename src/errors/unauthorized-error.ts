@@ -1,5 +1,5 @@
-import ErrorCodes from './error-codes';
 import { VError } from '@netflix/nerror';
+import ErrorCodes from './error-codes';
 
 class UnauthorizedError extends VError {
 	constructor(public name: string, public message: any, public code?: number) {

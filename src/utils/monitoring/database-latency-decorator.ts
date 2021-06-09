@@ -1,21 +1,21 @@
 import { performance } from 'perf_hooks';
 import MonitoringHelper from './monitoring-helper';
-import DbError from "../../errors/db-error";
+import DatabaseError from '../../errors/db-error';
 
-export default function DBLatencyDecorator(
+export default function DatabaseLatencyDecorator(
 	target: Object,
 	propertyKey: string,
-	descriptor: any,
-) {
+	descriptor: PropertyDescriptor,
+): PropertyDescriptor {
 	const originalMethod = descriptor.value;
 	if (typeof originalMethod === 'function') {
-		descriptor.value = function (...args: any) {
+		descriptor.value = function descriptorFunction (...arguments_: any) {
 			const start = performance.now();
 
 			const metricName = `${propertyKey}`;
 			MonitoringHelper.publishDBOps(metricName);
 			return originalMethod
-				.apply(this, args)
+				.apply(this, arguments_)
 				.then((data: any) => {
 					MonitoringHelper.publishDBLatency(
 						metricName,
@@ -23,11 +23,9 @@ export default function DBLatencyDecorator(
 					);
 					return data;
 				})
-				.catch((err: DbError) => {
-					MonitoringHelper.publishDBError(
-						metricName + '.' + err.getName()
-					);
-					throw err;
+				.catch((error: DatabaseError) => {
+					MonitoringHelper.publishDBError(`${metricName}.${error.getName()}`);
+					throw error;
 				});
 		};
 	}

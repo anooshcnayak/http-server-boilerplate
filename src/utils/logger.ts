@@ -1,10 +1,13 @@
 import * as fs from 'fs';
-import { createLogger, format, transports } from 'winston';
-import ClsUtils from "./ClsUtils";
+import {createLogger, format, Logger, transports} from 'winston';
+import ClsUtils from './ClsUtils';
+import Config, {LoggingConfig} from "../config/config";
+
 const DailyRotateFile = require('winston-daily-rotate-file');
+
 const { printf, errors, splat } = format;
 
-const getContextInfo = () => {
+const getContextInfo = (): string => {
 	const requestInfo: string = ClsUtils.getRequestInfo();
 
 	return `${requestInfo}`;
@@ -26,46 +29,53 @@ const logFormat = format.combine(
 	}),
 );
 
-const matrixTransport = new DailyRotateFile({
-	datePattern: 'YYYY-MM-DD_HH',
-	filename: 'logs/zion-%DATE%.log',
-	level: 'debug',
-	maxFiles: '5d',
-	maxSize: '500m',
-	zippedArchive: false,
-});
+export const logger = getLogger()
 
-const errorTransport = new DailyRotateFile({
-	datePattern: 'YYYY-MM-DD_HH',
-	filename: 'logs/zion-error-%DATE%.log',
-	level: 'error',
-	maxFiles: '5d',
-	maxSize: '500m',
-	zippedArchive: false,
-});
+function getLogger(): Logger {
 
-matrixTransport.on('rotate', (oldFileName: string, newFileName: string) => {
-	fs.rename(oldFileName, oldFileName + '-rotated', (err: any) => {
-		if (err) {
-			throw err;
-		}
+	const loggingConfig: LoggingConfig = Config.getLoggingConfig();
+
+	const matrixTransport = new DailyRotateFile({
+		datePattern: 'YYYY-MM-DD_HH',
+		filename: `logs/${Config.getAppName()}-%DATE%.log`,
+		level: loggingConfig.LogLevel,
+		maxFiles: loggingConfig.MaxAge,
+		maxSize: loggingConfig.MaxSize,
+		zippedArchive: false,
 	});
-});
 
-errorTransport.on('rotate', (oldFileName: string, newFileName: string) => {
-	fs.rename(oldFileName, oldFileName + '-rotated', (err: any) => {
-		if (err) {
-			throw err;
-		}
+	const errorTransport = new DailyRotateFile({
+		datePattern: 'YYYY-MM-DD_HH',
+		filename: `logs/${Config.getAppName()}-error-%DATE%.log`,
+		level: 'error',
+		maxFiles: loggingConfig.MaxAge,
+		maxSize: loggingConfig.MaxSize,
+		zippedArchive: false,
 	});
-});
 
-export const logger = createLogger({
-	defaultMeta: { time: new Date().toString().slice(4, 24) },
-	format: logFormat,
-	level: 'info',
-	transports: [matrixTransport, errorTransport],
-});
+	// matrixTransport.on('rotate', (oldFileName: string) => {
+	// 	fs.rename(oldFileName, `${oldFileName}-rotated`, (error: any) => {
+	// 		if (error) {
+	// 			throw error;
+	// 		}
+	// 	});
+	// });
+	//
+	// errorTransport.on('rotate', (oldFileName: string, newFileName: string) => {
+	// 	fs.rename(oldFileName, `${oldFileName}-rotated`, (error: any) => {
+	// 		if (error) {
+	// 			throw error;
+	// 		}
+	// 	});
+	// });
+
+	return createLogger({
+		defaultMeta: { time: new Date().toString().slice(4, 24) },
+		format: logFormat,
+		level: 'info',
+		transports: [matrixTransport, errorTransport],
+	});
+}
 
 //
 // If we're not in production then log to the `console` with the format:

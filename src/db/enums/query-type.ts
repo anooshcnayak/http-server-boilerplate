@@ -1,8 +1,8 @@
 enum QueryType {
-  SELECT,
-  INSERT,
-  UPDATE,
-  DELETE,
+	SELECT,
+	INSERT,
+	UPDATE,
+	DELETE,
 }
 
 export default QueryType;

@@ -3,24 +3,26 @@ import ResponseUtil from '../utils/ResponseUtil';
 import ServiceError from '../errors/service-error';
 import ErrorCodes from '../errors/error-codes';
 import MonitoringHelper from '../utils/monitoring/monitoring-helper';
-import UnauthorizedError from "../errors/unauthorized-error";
-import ServiceErrorUtil from "../errors/service-error-util";
+import UnauthorizedError from '../errors/unauthorized-error';
+import ServiceErrorUtil from '../errors/service-error-util';
 
 export default function ErrorHandlingMiddleware(
-	err: any,
-	req: any,
+	error: any,
+	request: any,
 	res: any,
 	next: any,
 ) {
+	MonitoringHelper.publishApiError(error.name || 'unknown');
 
-	MonitoringHelper.publishApiError(err.name || 'unknown');
+	logger.error(
+		'[ErrorHandlingMiddleware] Error: %s',
+		JSON.stringify(error || {}),
+	);
+	if (error && error.stack) logger.error(error); // Printing Error stack
 
-	logger.error('[ErrorHandlingMiddleware] Error: %s', JSON.stringify(err || {}));
-	if(err && err.stack) logger.error(err) // Printing Error stack
-
-	if (err instanceof ServiceError) {
-		ResponseUtil.sendErrorResponse(res, err);
-	} else if (err instanceof UnauthorizedError) {
+	if (error instanceof ServiceError) {
+		ResponseUtil.sendErrorResponse(res, error);
+	} else if (error instanceof UnauthorizedError) {
 		ResponseUtil.sendErrorResponse(
 			res,
 			ServiceErrorUtil.getAuthorizationError(),

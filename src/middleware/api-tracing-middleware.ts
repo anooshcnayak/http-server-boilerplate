@@ -1,44 +1,55 @@
+import { Request, Response, NextFunction } from 'express';
 import { logger } from '../utils/logger';
 import MonitoringHelper from '../utils/monitoring/monitoring-helper';
-import {Express} from "express";
 
-export default function ApiTracingMiddleware(req: any, res: any, next: any): void {
+export default function ApiTracingMiddleware(
+	request: Request,
+	res: Response,
+	next: NextFunction,
+): void {
 	const startTime: number = Date.now();
 
-	let apiName: string = 'unknown';
+	let apiName = 'unknown';
 
 	try {
-		apiName = getApiName(req);
-	} catch (e) {
-		logger.error("[ApiTracingMiddleware] Error with getting Api Name");
+		apiName = getApiName(request);
+	} catch {
+		logger.error('[ApiTracingMiddleware] Error with getting Api Name');
 	}
 
 	MonitoringHelper.publishApiOps(apiName);
 
 	logger.info(
-		`[Request] [${req.method}] [${req.url}] : %s`,
-		JSON.stringify(req.body),
+		`[Request] [${request.method}] [${request.url}] : %s`,
+		JSON.stringify(request.body),
 	);
 	res.on('finish', () => {
 		MonitoringHelper.publishApiLatency(apiName, startTime);
 		logger.info(
-			`[Response] [${req.method}] [${req.url}] - ${res.statusCode} ${res.statusMessage}; ${
-				res.get('Content-Length') || 0
-			}b sent`,
+			`[Response] [${request.method}] [${request.url}] - ${res.statusCode} ${
+				res.statusMessage
+			}; ${res.get('Content-Length') || 0}b sent`,
 		);
 	});
 
 	next();
 }
 
-function getApiName(req: any) {
-	let pathSplit = req.path.split("/");
+function getApiName(request: any) {
+	let pathSplit = request.path.split('/');
 
-	if(req.method && req.method.toLowerCase() === 'get' && pathSplit && pathSplit.length > 0) {
+	if (
+		request.method &&
+		request.method.toLowerCase() === 'get' &&
+		pathSplit &&
+		pathSplit.length > 0
+	) {
 		pathSplit.pop();
 	}
 
-	pathSplit = pathSplit.filter((val: any) => val).map((val: any) => !isNaN(val) ? 'XXX' : val);
+	pathSplit = pathSplit
+		.filter((value: any) => value)
+		.map((value: any) => (!isNaN(value) ? 'XXX' : value));
 
-	return req.method + "-" + pathSplit.join(".");
+	return `${request.method}-${pathSplit.join('.')}`;
 }

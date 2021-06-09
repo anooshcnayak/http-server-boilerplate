@@ -1,5 +1,7 @@
 import bodyParser from 'body-parser';
-import express, {Express} from 'express';
+import express, { Express } from 'express';
+import cookieParser from 'cookie-parser';
+import { createNamespace, Namespace } from 'cls-hooked';
 import { logger } from './utils/logger';
 import ClsMiddleware from './middleware/cls-middleware';
 import ApiTracingMiddleware from './middleware/api-tracing-middleware';
@@ -7,21 +9,19 @@ import AuthMiddleware from './middleware/auth-middleware';
 import MonitoringHelper from './utils/monitoring/monitoring-helper';
 import ErrorHandlingMiddleware from './middleware/error-handling-middleware';
 
-import cookieParser from 'cookie-parser';
-import { createNamespace, Namespace } from 'cls-hooked';
 import ClsUtils from './utils/ClsUtils';
 import Constants from './constants/constants';
-import HealthRoute from "./routes/health-route";
-import ArticlesRoute from "./routes/articles-route";
-import DatabaseService from "./db/database-service";
-import Config from "./config/config";
+import HealthRoute from './routes/health-route';
+import ArticlesRoute from './routes/articles-route';
+import DatabaseService from './db/database-service';
+import Config from './config/config';
 
 class App {
 	public express: Express;
 
 	constructor() {
 		this.express = express();
-		//this.express.use(helmet());
+		// this.express.use(helmet());
 		this.express.use(bodyParser.json({ limit: '2mb' })); // to support JSON-encoded bodies
 		this.express.use(
 			bodyParser.urlencoded({
@@ -53,38 +53,39 @@ class App {
 		this.express.use(AuthMiddleware);
 
 		// Mount All Public Routes
-		this.mountRoutes();
+		// this.mountRoutes();
 
 		// Error Handling Middleware
 		this.express.use(ErrorHandlingMiddleware);
 
-		process.on('uncaughtException', (err: Error) => {
+		process.on('uncaughtException', (error: Error) => {
 			logger.error(
 				'************************ Caught uncaughtException ************************',
 			);
-			logger.error("Uncaught:: " + JSON.stringify(err || {}));
-			if(err && err.stack) logger.error(err);
+			logger.error(`Uncaught:: ${JSON.stringify(error || {})}`);
+			if (error && error.stack) logger.error(error);
 			logger.error(
 				'**************************************************************************',
 			);
-			MonitoringHelper.publishUncaughtException(err.name);
+			MonitoringHelper.publishUncaughtException(error.name);
 		});
 	}
 
 	private mountInternalRoutes(): void {
-		this.express.use(ArticlesRoute)
+		this.express.use(ArticlesRoute);
 	}
 
 	// Public Routes
-	private mountRoutes(): void {
-	}
+	// private mountRoutes(): void {
+	//
+	// }
 
-	async init(): Promise<void> {
+	static async init(): Promise<void> {
 		// Init Configs/Database Connections/Queues/ etc
-		DatabaseService.init(Config.getDBConfig())
+		DatabaseService.init(Config.getDBConfig());
 	}
 
-	getExpress(): any {
+	getExpress(): Express {
 		return this.express;
 	}
 }

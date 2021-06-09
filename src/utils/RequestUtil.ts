@@ -1,46 +1,49 @@
-import Constants from "../constants/constants";
+import Constants from '../constants/constants';
 
 export default class RequestUtil {
 	public static parseQueryParamAsNumber(
-		params: any,
-		paramName: string,
+		parameters: any,
+		parameterName: string,
 	): number {
-		return Number.parseInt(params[paramName] || '0', 10);
+		return Number.parseInt(parameters[parameterName] || '0', 10);
 	}
 
 	public static parseQueryParamAsString(
-		params: any,
-		paramName: string,
+		parameters: any,
+		parameterName: string,
 	): string {
-		return params[paramName] || '';
+		return parameters[parameterName] || '';
 	}
 
 	public static parseQueryParamAsArray(
-		params: any,
-		paramName: string,
+		parameters: any,
+		parameterName: string,
 	): string[] {
-		return (params[paramName] && params[paramName].split(',')) || [];
+		return (
+			(parameters[parameterName] && parameters[parameterName].split(',')) || []
+		);
 	}
 
 	// Filter only number parse values
 	public static parseQueryParamAsNumberArray(
-		params: any,
-		paramName: string,
+		parameters: any,
+		parameterName: string,
 	): number[] {
-		return ((params[paramName] && params[paramName].split(',')) || []).filter(
-			(Element: string) => {
-				try {
-					return parseInt(Element, 10);
-				} catch (e) {}
-			},
-		);
+		return (
+			(parameters[parameterName] && parameters[parameterName].split(',')) ||
+			[]
+		).filter((Element: string) => {
+			try {
+				return Number.parseInt(Element, 10);
+			} catch {}
+		});
 	}
 
 	public static getRequestIdFromHeader(headers: any): string {
 		return (
-				headers[Constants.REQUEST_HEADERS.REQUEST_ID] ||
-				headers[Constants.REQUEST_HEADERS.REQUEST_ID.toUpperCase()] ||
-				''
+			headers[Constants.REQUEST_HEADERS.REQUEST_ID] ||
+			headers[Constants.REQUEST_HEADERS.REQUEST_ID.toUpperCase()] ||
+			''
 		);
 	}
 }

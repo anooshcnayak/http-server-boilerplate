@@ -1,5 +1,5 @@
 enum TableNames {
-  ARTICLE = 'article'
+	ARTICLE = 'article',
 }
 
 export default TableNames;
