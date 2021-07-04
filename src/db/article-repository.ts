@@ -1,10 +1,11 @@
 import DatabaseService from './database-service';
 import QueryType from './enums/query-type';
 import DatabaseLatencyDecorator from '../utils/monitoring/database-latency-decorator';
-import Article from './models/Article';
+import ArticleDAO from './models/article-dao';
 import MysqlUtil from './mysql-util';
+import TableNames from "./enums/table-names";
 
-export default class ArticleQuery {
+class ArticleRepository {
 	private readonly tableName: string;
 	private readonly articleFields: string[];
 
@@ -20,12 +21,12 @@ export default class ArticleQuery {
 	}
 
 	@DatabaseLatencyDecorator
-	public async getArticle(articleId: number): Promise<Article | undefined> {
+	public async getArticle(articleId: number): Promise<ArticleDAO | undefined> {
 		const query = {
 			query: `select ${this.articleFields} from ${this.tableName} where id = ?`,
 			values: [articleId],
 		};
-		const articles: Article[] =
+		const articles: ArticleDAO[] =
 			await DatabaseService.getInstance().executeQuery(
 				MysqlUtil.getSqlFormatQuery(query),
 				QueryType.SELECT,
@@ -34,3 +35,5 @@ export default class ArticleQuery {
 		return articles.length > 0 ? articles[0] : undefined;
 	}
 }
+
+export default new ArticleRepository(TableNames.ARTICLE);

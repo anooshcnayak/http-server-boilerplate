@@ -1,13 +1,13 @@
 import { logger } from '../utils/logger';
-import DatabaseFactory from '../db/database-factory';
-import Article from '../db/models/Article';
+import ArticleRepository from '../db/article-repository'
+import ArticleDAO from "../db/models/article-dao";
+import Article from "../models/article";
 
 export default class ArticleService {
-	static async getArticle(requestId: string, articleId: number): Promise<any> {
+	static async getArticle(requestId: string, articleId: number): Promise<Article | undefined> {
 		logger.info(`[ArticleService] [getArticle] articleId ${articleId}`);
 
-		const article: Article | undefined =
-			await DatabaseFactory.getArticleQuery().getArticle(articleId);
-		return article;
+		const articleDao: ArticleDAO | undefined = await ArticleRepository.getArticle(articleId);
+		return articleDao && Article.getArticle(articleDao);
 	}
 }

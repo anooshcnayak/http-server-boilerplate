@@ -1,26 +1,14 @@
-const CONF: any = {
-	APP_NAME: process.env.APP_NAME || 'api-server-boilerplate',
-	HTTP_SERVER: {
-		PORT: process.env.HTTP_SERVER_PORT || '4000',
-	},
-
-	MONITORING: {
-		PREFIX: process.env.MONITORING_PREFIX || 'api-server-boilerplate',
-		PORT: process.env.MONITORING_PORT || 8125,
-	},
-
-	DATABASE: {},
-
-	LOGGING: {},
-};
+import {env, envBoolean, envNumber} from '../utils/env-util'
+import dotenv from 'dotenv'
+let CONF: any;
 
 export interface MonitoringConfig {
-	PREFIX: string;
-	PORT: number;
+	Prefix: string;
+	Port: number;
 }
 
 export interface HttpServerConfig {
-	PORT: string;
+	Port: string;
 }
 
 export interface DBConfig {
@@ -44,22 +32,53 @@ export interface LoggingConfig {
 	LogLevel: string;
 }
 
-const Config = {
-	getAppName(): string {
+export default class Config {
+	static init() {
+		dotenv.config();
+		CONF = {
+			APP_NAME: env('APP_NAME'),
+			HTTP_SERVER: {
+				Port: envNumber('HTTP_SERVER_PORT'),
+			},
+
+			MONITORING: {
+				Prefix: env('MONITORING_PREFIX'),
+				Port: envNumber('MONITORING_PORT'),
+			},
+
+			DATABASE: {
+
+			},
+
+			LOGGING: {
+				LogDir: env('LOGGING_DIR'),
+				FileName: env('LOGGING_FILE_NAME'),
+				MaxSize: env('LOGGING_FILE_MAX_SIZE'),
+				MaxAge: env('LOGGING_FILE_MAX_AGE'),
+				LogConsole: envBoolean('LOGGING_CONSOLE'),
+				LogFile: env('LOGGING_FILE'),
+				LogLevel: env('LOGGING_LEVEL'),
+			},
+		}
+	}
+
+	static getAppName(): string {
 		return CONF.appName;
-	},
+	}
 
-	getHttpServerConfig(): HttpServerConfig {
+	static getHttpServerConfig(): HttpServerConfig {
 		return CONF.HTTP_SERVER;
-	},
+	}
 
-	getDBConfig(): DBConfig {
+	static getDBConfig(): DBConfig {
 		return CONF.DATABASE;
-	},
+	}
 
-	getLoggingConfig(): LoggingConfig {
+	static getMonitoringConfig(): MonitoringConfig {
+		return CONF.MONITORING;
+	}
+
+	static getLoggingConfig(): LoggingConfig {
 		return CONF.LOGGING;
 	}
-};
-
-export default Config;
+}

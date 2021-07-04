@@ -1,24 +1,21 @@
-// This should always be the first line of index to load config from env
-import http from 'node:http';
-import Config from './config/config';
+import http, {Server} from 'http';
+import Config, {HttpServerConfig} from './config/config';
 import App from './app';
 import { logger } from './utils/logger';
 import MonitoringHelper from './utils/monitoring/monitoring-helper';
-
-require('dotenv').config();
 
 App.init()
 	.then(() => {
 		logger.info('api-server:: Starting server');
 
-		const httpServerConfig: any = Config.getHttpServerConfig();
+		const httpServerConfig: HttpServerConfig = Config.getHttpServerConfig();
 		// Create Http Server
-		const server: any = http.createServer(App.getExpress());
+		const server: Server = http.createServer(App.getServer());
 
-		server.listen(httpServerConfig.PORT, () => {
+		server.listen(httpServerConfig.Port, () => {
 			MonitoringHelper.publishServerStartSuccess();
 			logger.info(
-				`API Server Started :: Server is listening on ${httpServerConfig.PORT}`,
+				`API Server Started :: Server is listening on ${httpServerConfig.Port}`,
 			);
 		});
 	})

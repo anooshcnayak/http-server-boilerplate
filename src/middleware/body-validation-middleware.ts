@@ -1,5 +1,5 @@
 import { validationResult } from 'express-validator';
-import ResponseUtil from '../utils/ResponseUtil';
+import ResponseUtil from '../utils/response-util';
 import ServiceErrorUtil from '../errors/service-error-util';
 
 export default function BodyValidationMiddleware(

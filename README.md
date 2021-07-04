@@ -3,7 +3,7 @@
 ### Getting Started
 
 Pre-requisites:
-* Git, Node.js & Typescript Installed
+* Git, Node.js(12 & above) & Typescript Installed
 
 Clone a copy of the repo:
 

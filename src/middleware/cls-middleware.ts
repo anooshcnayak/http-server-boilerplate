@@ -1,18 +1,18 @@
 import { v4 as uuid } from 'uuid';
-import ClsUtils from '../utils/ClsUtils';
-import RequestUtil from '../utils/RequestUtil';
+import ClsUtil from '../utils/cls-util';
+import RequestUtil from '../utils/request-util';
 
 function ClsMiddleware(request: any, res: any, next: any): void {
-	ClsUtils.getNS()?.run(() => {
+	ClsUtil.getNS()?.run(() => {
 		const requestId: string = RequestUtil.getRequestIdFromHeader(
 			request.headers,
 		);
 
 		if (requestId) {
-			ClsUtils.addRequestIdToRequestNS(requestId);
-		} else ClsUtils.addRequestIdToRequestNS(uuid());
+			ClsUtil.addRequestIdToRequestNS(requestId);
+		} else ClsUtil.addRequestIdToRequestNS(uuid());
 
-		request.reqId = ClsUtils.getRequestInfo();
+		request.reqId = ClsUtil.getRequestInfo();
 		return next();
 	});
 }

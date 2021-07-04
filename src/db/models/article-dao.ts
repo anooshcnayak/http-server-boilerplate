@@ -1,4 +1,4 @@
-export default interface Article {
+export default interface ArticleDAO {
 	id: number;
 	name: string;
 	description: string;

@@ -7,6 +7,11 @@ export default function ApiTracingMiddleware(
 	res: Response,
 	next: NextFunction,
 ): void {
+
+	if(request.url && request.url.indexOf("health") != -1) {
+		return next()
+	}
+
 	const startTime: number = Date.now();
 
 	let apiName = 'unknown';
@@ -28,11 +33,12 @@ export default function ApiTracingMiddleware(
 		logger.info(
 			`[Response] [${request.method}] [${request.url}] - ${res.statusCode} ${
 				res.statusMessage
-			}; ${res.get('Content-Length') || 0}b sent`,
+					//@ts-ignore
+			}; ${res.get('Content-Length') || 0}b sent; latency: ${Date.now() - startTime}ms - ${JSON.stringify(res.body || {})}`,
 		);
 	});
 
-	next();
+	return next();
 }
 
 function getApiName(request: any) {

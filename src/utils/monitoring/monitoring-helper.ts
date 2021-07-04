@@ -1,12 +1,18 @@
+import {MonitoringConfig} from "../../config/config";
+
 const SDC = require('statsd-client');
 
-const sdc = new SDC({
-	host: 'localhost',
-	port: 8125,
-	prefix: 'api-server-boilerplate',
-});
+let sdc: any;
 
 class MonitoringHelper {
+	public static init(config: MonitoringConfig) {
+		sdc = new SDC({
+			host: 'localhost',
+			port: config.Port,
+			prefix: config.Prefix,
+		});
+	}
+
 	public static publishApiError(name: string): void {
 		sdc.timing(`error.api.${name}`, 1);
 	}

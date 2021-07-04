@@ -1,6 +1,6 @@
-import ResponseUtil from '../utils/ResponseUtil';
+import ResponseUtil from '../utils/response-util';
 import { logger } from '../utils/logger';
-import RequestUtil from '../utils/RequestUtil';
+import RequestUtil from '../utils/request-util';
 import ArticleService from '../services/article-service';
 
 export default class ArticlesController {

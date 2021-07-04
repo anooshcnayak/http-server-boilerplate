@@ -1,7 +1,7 @@
 import { Namespace } from 'cls-hooked';
 import Constants from '../constants/constants';
 
-class ClsUtils {
+class ClsUtil {
 	static requestNamespace: Namespace | undefined = undefined;
 
 	static initNS(ns: Namespace): void {
@@ -44,4 +44,4 @@ class ClsUtils {
 	}
 }
 
-export default ClsUtils;
+export default ClsUtil;

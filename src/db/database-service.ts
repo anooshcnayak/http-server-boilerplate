@@ -2,7 +2,7 @@ import mysql, { Pool } from 'mysql2';
 import { PoolConnection } from 'mysql2/promise';
 import QueryType from './enums/query-type';
 import { logger } from '../utils/logger';
-import Query from './Query';
+import Query from './query';
 
 import DBError from '../errors/db-error';
 

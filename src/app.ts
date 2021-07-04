@@ -2,22 +2,22 @@ import bodyParser from 'body-parser';
 import express, { Express } from 'express';
 import cookieParser from 'cookie-parser';
 import { createNamespace, Namespace } from 'cls-hooked';
-import { logger } from './utils/logger';
+import LoggerUtil, { logger } from './utils/logger';
 import ClsMiddleware from './middleware/cls-middleware';
 import ApiTracingMiddleware from './middleware/api-tracing-middleware';
 import AuthMiddleware from './middleware/auth-middleware';
 import MonitoringHelper from './utils/monitoring/monitoring-helper';
 import ErrorHandlingMiddleware from './middleware/error-handling-middleware';
 
-import ClsUtils from './utils/ClsUtils';
+import ClsUtil from './utils/cls-util';
 import Constants from './constants/constants';
 import HealthRoute from './routes/health-route';
 import ArticlesRoute from './routes/articles-route';
-import DatabaseService from './db/database-service';
 import Config from './config/config';
+import DatabaseService from "./db/database-service";
 
 class App {
-	public express: Express;
+	private express: Express;
 
 	constructor() {
 		this.express = express();
@@ -36,7 +36,7 @@ class App {
 		const clsNS: Namespace = createNamespace(
 			Constants.CLS.requestNamespaceName,
 		);
-		ClsUtils.initNS(clsNS); // Cls Namespace
+		ClsUtil.initNS(clsNS); // Cls Namespace
 
 		this.express.use(
 			cookieParser(),
@@ -80,12 +80,17 @@ class App {
 	//
 	// }
 
-	static async init(): Promise<void> {
+	async init(): Promise<void> {
+		// Config should be initialized before others -- !!important!!
+		Config.init();
+		LoggerUtil.init(Config.getLoggingConfig());
+		MonitoringHelper.init(Config.getMonitoringConfig());
 		// Init Configs/Database Connections/Queues/ etc
 		DatabaseService.init(Config.getDBConfig());
+		return Promise.resolve()
 	}
 
-	getExpress(): Express {
+	getServer(): Express {
 		return this.express;
 	}
 }

@@ -1,5 +1,5 @@
 import { logger } from '../utils/logger';
-import ResponseUtil from '../utils/ResponseUtil';
+import ResponseUtil from '../utils/response-util';
 import ServiceError from '../errors/service-error';
 import ErrorCodes from '../errors/error-codes';
 import MonitoringHelper from '../utils/monitoring/monitoring-helper';

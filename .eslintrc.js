@@ -30,11 +30,13 @@ module.exports = {
 		// https://basarat.gitbooks.io/typescript/docs/tips/defaultIsBad.html
 		"import/prefer-default-export": "off",
 		"unicorn/filename-case": "off",
+		"unicorn/prevent-abbreviations": "off",
 		// Too restrictive: https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/destructuring-assignment.md
 		"no-use-before-define": [
 			"error",
 			{ functions: false, classes: true, variables: true },
 		],
+		"@typescript-eslint/explicit-module-boundary-types": "off",
 		"@typescript-eslint/lines-between-class-members": "off",
 		// Makes no sense to allow type inferrence for expression parameters, but require typing the response
 		"@typescript-eslint/explicit-function-return-type": [
