@@ -12,7 +12,8 @@
     "start": " ts-node src/index.ts",
     "dev": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' src/app.ts",
     "build": "./node_modules/.bin/tsc -p .",
-    "lint": "./node_modules/.bin/eslint src/*"
+    "lint": "npx eslint --fix src/*",
+    "prettier": "npx prettier --config .prettierrc --write \"src/**/*.ts\""
   },
   "repository": {
     "type": "git",

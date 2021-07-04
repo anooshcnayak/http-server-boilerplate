@@ -34,7 +34,7 @@ class Query {
 		this.pool = pool;
 	}
 
-	async executeQuery(query: any, type: QueryType) {
+	async executeQuery(query: any, type: QueryType): Promise<any> {
 		const [rows] = await this.pool.promise().query(query);
 		let result: any = rows;
 		switch (type) {

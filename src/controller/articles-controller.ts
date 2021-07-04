@@ -1,3 +1,4 @@
+import { NextFunction } from 'express';
 import ResponseUtil from '../utils/response-util';
 import { logger } from '../utils/logger';
 import RequestUtil from '../utils/request-util';
@@ -7,11 +8,15 @@ export default class ArticlesController {
 	/*
 			GET - /api/v1/article/:articleId    returns article
 	 */
-	static async getArticle(request: any, res: any, next: any): Promise<void> {
-		const { reqId } = request;
+	static async getArticle(
+		request: any,
+		res: any,
+		next: NextFunction,
+	): Promise<void> {
+		const { reqId, params } = request;
 		try {
 			const articleId: number = RequestUtil.parseQueryParamAsNumber(
-				request.params,
+				params,
 				'articleId',
 			);
 
@@ -22,7 +27,7 @@ export default class ArticlesController {
 			);
 			ResponseUtil.sendSuccessResponse(res, response);
 		} catch (error) {
-			return next(error);
+			next(error);
 		}
 	}
 }

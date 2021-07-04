@@ -3,7 +3,7 @@ import QueryType from './enums/query-type';
 import DatabaseLatencyDecorator from '../utils/monitoring/database-latency-decorator';
 import ArticleDAO from './models/article-dao';
 import MysqlUtil from './mysql-util';
-import TableNames from "./enums/table-names";
+import TableNames from './enums/table-names';
 
 class ArticleRepository {
 	private readonly tableName: string;

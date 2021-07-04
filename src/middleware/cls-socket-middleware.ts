@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import ClsUtil from '../utils/cls-util';
 
-function ClsSocketMiddleware(socket: any, next: any, userId?: any): void {
+function ClsSocketMiddleware(socket: any, next: any): void {
 	ClsUtil.getNS()?.run(() => {
 		ClsUtil.addRequestIdToRequestNS(uuid());
 

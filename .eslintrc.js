@@ -22,6 +22,10 @@ module.exports = {
 		node: true
 	},
 	rules: {
+		"func-names": 0,
+		"no-param-reassign": 0,
+		"unicorn/no-static-only-class": "off",
+		"class-methods-use-this": 0,
 		"@typescript-eslint/no-var-requires": 0,
 		"unicorn/prefer-module": 0,
 		"@typescript-eslint/no-explicit-any": 0,
@@ -36,8 +40,11 @@ module.exports = {
 			"error",
 			{ functions: false, classes: true, variables: true },
 		],
+		"unicorn/prefer-node-protocol": "off",
 		"@typescript-eslint/explicit-module-boundary-types": "off",
 		"@typescript-eslint/lines-between-class-members": "off",
+		"import/no-mutable-exports": "off",
+		"@typescript-eslint/ban-ts-comment": "off",
 		// Makes no sense to allow type inferrence for expression parameters, but require typing the response
 		"@typescript-eslint/explicit-function-return-type": [
 			"error",

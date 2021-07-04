@@ -29,8 +29,8 @@ class ErrorCodes {
 		public message: string,
 		public name: string,
 	) {}
-	toString() {
-		return this.name;
+	toString(): string {
+		return `${this.name}:${this.code}:${this.message}`;
 	}
 }
 

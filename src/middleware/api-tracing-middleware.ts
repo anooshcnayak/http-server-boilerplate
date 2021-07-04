@@ -7,9 +7,9 @@ export default function ApiTracingMiddleware(
 	res: Response,
 	next: NextFunction,
 ): void {
-
-	if(request.url && request.url.indexOf("health") != -1) {
-		return next()
+	if (request.url && request.url.includes('health')) {
+		// Ignore health checks
+		return next();
 	}
 
 	const startTime: number = Date.now();
@@ -33,29 +33,22 @@ export default function ApiTracingMiddleware(
 		logger.info(
 			`[Response] [${request.method}] [${request.url}] - ${res.statusCode} ${
 				res.statusMessage
-					//@ts-ignore
-			}; ${res.get('Content-Length') || 0}b sent; latency: ${Date.now() - startTime}ms - ${JSON.stringify(res.body || {})}`,
+			}; ${res.get('Content-Length') || 0}b sent; latency: ${
+				Date.now() - startTime
+				// @ts-ignore
+			}ms - ${JSON.stringify(res.body || {})}`,
 		);
 	});
 
 	return next();
 }
 
-function getApiName(request: any) {
+function getApiName(request: any): string {
 	let pathSplit = request.path.split('/');
-
-	if (
-		request.method &&
-		request.method.toLowerCase() === 'get' &&
-		pathSplit &&
-		pathSplit.length > 0
-	) {
-		pathSplit.pop();
-	}
 
 	pathSplit = pathSplit
 		.filter((value: any) => value)
-		.map((value: any) => (!isNaN(value) ? 'XXX' : value));
+		.map((value: any) => (!Number.isNaN(value) ? 'XXX' : value));
 
 	return `${request.method}-${pathSplit.join('.')}`;
 }

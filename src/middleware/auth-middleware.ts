@@ -1,11 +1,8 @@
-import { logger } from '../utils/logger';
-import Constants from '../constants/constants';
-import Config from '../config/config';
-import ClsUtil from '../utils/cls-util';
+import { NextFunction } from 'express';
 
-async function AuthMiddleware(request: any, res: any, next: any) {
+function AuthMiddleware(request: any, res: any, next: NextFunction): void {
 	// Add Auth if needed
-	next();
+	return next();
 }
 
 export default AuthMiddleware;

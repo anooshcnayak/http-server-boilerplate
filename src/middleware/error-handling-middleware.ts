@@ -1,17 +1,15 @@
 import { logger } from '../utils/logger';
 import ResponseUtil from '../utils/response-util';
 import ServiceError from '../errors/service-error';
-import ErrorCodes from '../errors/error-codes';
 import MonitoringHelper from '../utils/monitoring/monitoring-helper';
 import UnauthorizedError from '../errors/unauthorized-error';
 import ServiceErrorUtil from '../errors/service-error-util';
 
 export default function ErrorHandlingMiddleware(
-	error: any,
+	error: Error,
 	request: any,
 	res: any,
-	next: any,
-) {
+): void {
 	MonitoringHelper.publishApiError(error.name || 'unknown');
 
 	logger.error(

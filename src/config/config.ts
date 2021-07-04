@@ -1,5 +1,6 @@
-import {env, envBoolean, envNumber} from '../utils/env-util'
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
+import { env, envBoolean, envNumber } from '../utils/env-util';
+
 let CONF: any;
 
 export interface MonitoringConfig {
@@ -33,7 +34,7 @@ export interface LoggingConfig {
 }
 
 export default class Config {
-	static init() {
+	static init(): void {
 		dotenv.config();
 		CONF = {
 			APP_NAME: env('APP_NAME'),
@@ -46,9 +47,7 @@ export default class Config {
 				Port: envNumber('MONITORING_PORT'),
 			},
 
-			DATABASE: {
-
-			},
+			DATABASE: {},
 
 			LOGGING: {
 				LogDir: env('LOGGING_DIR'),
@@ -59,7 +58,7 @@ export default class Config {
 				LogFile: env('LOGGING_FILE'),
 				LogLevel: env('LOGGING_LEVEL'),
 			},
-		}
+		};
 	}
 
 	static getAppName(): string {

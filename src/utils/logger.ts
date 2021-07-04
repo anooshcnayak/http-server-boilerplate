@@ -1,6 +1,6 @@
-import {createLogger, format, Logger, transports} from 'winston';
+import { createLogger, format, Logger, transports } from 'winston';
 import ClsUtil from './cls-util';
-import Config, {LoggingConfig} from "../config/config";
+import Config, { LoggingConfig } from '../config/config';
 
 const DailyRotateFile = require('winston-daily-rotate-file');
 
@@ -13,28 +13,27 @@ const getContextInfo = (): string => {
 };
 
 const logFormat = format.combine(
-		errors({ stack: true }),
-		// format.timestamp({
-		// 	format: 'YYYY-MM-DD HH:mm:ss',
-		// }),
-		timestamp(),
-		splat(),
-		printf(info => {
-			const { level, message, timestamp, stack } = info;
-			if (stack) {
-				// print log trace
-				return `${timestamp} [pid-${process.pid}] ${level}: ${getContextInfo()} ${stack}`;
-			}
-			return `${timestamp} [pid-${process.pid}] ${level}: ${getContextInfo()} ${message}`;
-		}),
+	errors({ stack: true }),
+	timestamp(),
+	splat(),
+	printf(info => {
+		const { level, message, ts, stack } = info;
+		if (stack) {
+			// print log trace
+			return `${ts} [pid-${
+				process.pid
+			}] ${level}: ${getContextInfo()} ${stack}`;
+		}
+		return `${ts} [pid-${
+			process.pid
+		}] ${level}: ${getContextInfo()} ${message}`;
+	}),
 );
 
 export let logger: Logger;
 
 export default class LoggerUtil {
-
 	static init(loggingConfig: LoggingConfig): void {
-
 		const matrixTransport = new DailyRotateFile({
 			datePattern: 'YYYY-MM-DD_HH',
 			filename: `logs/${Config.getAppName()}-%DATE%.log`,
@@ -81,9 +80,9 @@ export default class LoggerUtil {
 		//
 		if (process.env.NODE_ENV !== 'production') {
 			logger.add(
-					new transports.Console({
-						format: logFormat,
-					}),
+				new transports.Console({
+					format: logFormat,
+				}),
 			);
 		}
 	}

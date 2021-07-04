@@ -14,7 +14,7 @@ import Constants from './constants/constants';
 import HealthRoute from './routes/health-route';
 import ArticlesRoute from './routes/articles-route';
 import Config from './config/config';
-import DatabaseService from "./db/database-service";
+import DatabaseService from './db/database-service';
 
 class App {
 	private express: Express;
@@ -87,7 +87,7 @@ class App {
 		MonitoringHelper.init(Config.getMonitoringConfig());
 		// Init Configs/Database Connections/Queues/ etc
 		DatabaseService.init(Config.getDBConfig());
-		return Promise.resolve()
+		return Promise.resolve();
 	}
 
 	getServer(): Express {

@@ -2,7 +2,6 @@ import ServiceError from '../errors/service-error';
 
 export default class ResponseUtil {
 	static sendSuccessResponse(res: any, responseBody: any): void {
-
 		res.body = responseBody;
 		res.send({
 			status: {

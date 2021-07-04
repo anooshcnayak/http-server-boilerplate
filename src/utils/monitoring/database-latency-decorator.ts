@@ -3,13 +3,13 @@ import MonitoringHelper from './monitoring-helper';
 import DatabaseError from '../../errors/db-error';
 
 export default function DatabaseLatencyDecorator(
-	target: Object,
+	target: any,
 	propertyKey: string,
 	descriptor: PropertyDescriptor,
 ): PropertyDescriptor {
 	const originalMethod = descriptor.value;
 	if (typeof originalMethod === 'function') {
-		descriptor.value = function descriptorFunction (...arguments_: any) {
+		descriptor.value = function descriptorFunction(...arguments_: any) {
 			const start = performance.now();
 
 			const metricName = `${propertyKey}`;

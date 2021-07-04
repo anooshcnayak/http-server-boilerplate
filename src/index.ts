@@ -1,5 +1,5 @@
-import http, {Server} from 'http';
-import Config, {HttpServerConfig} from './config/config';
+import http, { Server } from 'http';
+import Config, { HttpServerConfig } from './config/config';
 import App from './app';
 import { logger } from './utils/logger';
 import MonitoringHelper from './utils/monitoring/monitoring-helper';
@@ -18,11 +18,13 @@ App.init()
 				`API Server Started :: Server is listening on ${httpServerConfig.Port}`,
 			);
 		});
+
+		return true;
 	})
 	.catch((error: Error) => {
 		logger.error('Unable to Start Server::: %s', JSON.stringify(error));
 		logger.error(error);
 
 		MonitoringHelper.publishServerStartFailed();
-		process.exit(1);
+		throw new Error('Unable to start server');
 	});

@@ -32,11 +32,7 @@ export default class RequestUtil {
 		return (
 			(parameters[parameterName] && parameters[parameterName].split(',')) ||
 			[]
-		).filter((Element: string) => {
-			try {
-				return Number.parseInt(Element, 10);
-			} catch {}
-		});
+		).map((element: string) => Number.parseInt(element || '0', 10));
 	}
 
 	public static getRequestIdFromHeader(headers: any): string {

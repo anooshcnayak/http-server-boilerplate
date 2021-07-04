@@ -1,4 +1,4 @@
-import { query, body, param } from 'express-validator';
+import { param } from 'express-validator';
 
 export function articleIdValidation(): any {
 	return [

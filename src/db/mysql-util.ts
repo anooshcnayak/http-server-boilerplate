@@ -5,7 +5,7 @@ class MysqlUtil {
 		return mysql.format(query.query, query.values);
 	}
 
-	public static getEscapeValue(value: number) {
+	public static getEscapeValue(value: number): string {
 		return mysql.escape(value);
 	}
 }

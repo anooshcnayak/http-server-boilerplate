@@ -1,11 +1,11 @@
-import {MonitoringConfig} from "../../config/config";
+import { MonitoringConfig } from '../../config/config';
 
 const SDC = require('statsd-client');
 
 let sdc: any;
 
 class MonitoringHelper {
-	public static init(config: MonitoringConfig) {
+	public static init(config: MonitoringConfig): void {
 		sdc = new SDC({
 			host: 'localhost',
 			port: config.Port,
