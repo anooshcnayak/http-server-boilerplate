@@ -26,7 +26,9 @@ module.exports = {
 		"no-param-reassign": 0,
 		"unicorn/no-static-only-class": "off",
 		"class-methods-use-this": 0,
+		"@typescript-eslint/no-shadow": "off",
 		"@typescript-eslint/no-var-requires": 0,
+		"@typescript-eslint/no-unused-vars": 0,
 		"unicorn/prefer-module": 0,
 		"@typescript-eslint/no-explicit-any": 0,
 		// Too restrictive, writing ugly code to defend against a very unlikely scenario: https://eslint.org/docs/rules/no-prototype-builtins
