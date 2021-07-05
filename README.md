@@ -8,7 +8,7 @@ Pre-requisites:
 Clone a copy of the repo:
 
 ```bash
-git clone ssh://git@repo.gameskraft.in/ateam/matrix.git
+git clone ssh://git@repo.gameskraft.in/tmp/api-server-boilerplate.git
 ```
 
 Change to the directory:
@@ -36,6 +36,8 @@ npm run clear          # Remove build/ coverage and other clean up
 npm run clear:all      # Run clear & Remove node_modules - Clean up
 
 npm run logs           # Tail Latest Logs
+
+npm run prettier       # Run Prettier
 
 npm run lint           # Run Linting
 ```

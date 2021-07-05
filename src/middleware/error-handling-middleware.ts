@@ -4,11 +4,13 @@ import ServiceError from '../errors/service-error';
 import MonitoringHelper from '../utils/monitoring/monitoring-helper';
 import UnauthorizedError from '../errors/unauthorized-error';
 import ServiceErrorUtil from '../errors/service-error-util';
+import {NextFunction} from "express";
 
 export default function ErrorHandlingMiddleware(
 	error: Error,
 	request: any,
 	res: any,
+	next: NextFunction
 ): void {
 	MonitoringHelper.publishApiError(error.name || 'unknown');
 

@@ -17,14 +17,14 @@ const logFormat = format.combine(
 	timestamp(),
 	splat(),
 	printf(info => {
-		const { level, message, ts, stack } = info;
+		const { level, message, timestamp, stack } = info;
 		if (stack) {
 			// print log trace
-			return `${ts} [pid-${
+			return `${timestamp} [pid-${
 				process.pid
-			}] ${level}: ${getContextInfo()} ${stack}`;
+			}] ${level}: ${getContextInfo()} ${JSON.stringify(stack)}`;
 		}
-		return `${ts} [pid-${
+		return `${timestamp} [pid-${
 			process.pid
 		}] ${level}: ${getContextInfo()} ${message}`;
 	}),
