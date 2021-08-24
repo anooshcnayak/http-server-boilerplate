@@ -17,6 +17,10 @@ class ServiceErrorUtil {
 		return ServiceError.INTERNAL_SERVER_ERROR;
 	}
 
+	public static getDBAnomalyError(): ServiceError {
+		return ServiceError.DB_ANOMALY;
+	}
+
 	public static getBodyValidationError(message: any): ServiceError {
 		const error = ServiceError.get(ErrorCodes.BODY_VALIDATION_ERROR);
 		error.message = message;
@@ -25,6 +29,10 @@ class ServiceErrorUtil {
 
 	public static getAuthorizationError(): ServiceError {
 		return ServiceError.AUTHORIZATION_ERROR;
+	}
+
+	public static getArticleDoesNotExist(): ServiceError {
+		return ServiceError.ARTICLE_DOES_NOT_EXIST;
 	}
 }
 

@@ -6,6 +6,7 @@ let CONF: any;
 export interface MonitoringConfig {
 	Prefix: string;
 	Port: number;
+	Endpoint: string;
 }
 
 export interface HttpServerConfig {
@@ -18,7 +19,6 @@ export interface DBConfig {
 	Username: string;
 	Password: string;
 	DatabaseName: string;
-	DriverName: string;
 	SslMode: string;
 	MaxConnection: number;
 }
@@ -45,6 +45,7 @@ export default class Config {
 			MONITORING: {
 				Prefix: env('MONITORING_PREFIX'),
 				Port: envNumber('MONITORING_PORT'),
+				Endpoint: env('MONITORING_ENDPOINT'),
 			},
 
 			DATABASE: {},

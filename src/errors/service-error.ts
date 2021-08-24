@@ -10,6 +10,12 @@ class ServiceError extends VError {
 		ErrorCodes.AUTHORIZATION_ERROR,
 	);
 
+	static readonly ARTICLE_DOES_NOT_EXIST = ServiceError.get(
+			ErrorCodes.ARTICLE_DOES_NOT_EXIST,
+	);
+
+	static readonly DB_ANOMALY = ServiceError.get(ErrorCodes.DB_ANOMALY);
+
 	constructor(public name: string, public code: number, public message: any) {
 		super();
 	}

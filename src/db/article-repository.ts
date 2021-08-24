@@ -4,6 +4,9 @@ import DatabaseLatencyDecorator from '../utils/monitoring/database-latency-decor
 import ArticleDAO from './models/article-dao';
 import MysqlUtil from './mysql-util';
 import TableNames from './enums/table-names';
+import EventDAO from "../../../andromeda/src/db/models/event-dao";
+import EventState from "../../../andromeda/src/models/enums/event-state";
+import PgUtil from "../../../andromeda/src/db/pg-util";
 
 class ArticleRepository {
 	private readonly tableName: string;
@@ -33,6 +36,19 @@ class ArticleRepository {
 			);
 
 		return articles.length > 0 ? articles[0] : undefined;
+	}
+
+	@DatabaseLatencyDecorator
+	public async create(dao: ArticleDAO): Promise<number> {
+		const query = {
+			query: `insert into ${this.tableName} set ?`,
+			values: dao,
+		};
+		const articleId: number = await DatabaseService.getInstance().executeQuery(
+				MysqlUtil.getSqlFormatQuery(query),
+				QueryType.INSERT,
+		);
+		return articleId;
 	}
 }
 

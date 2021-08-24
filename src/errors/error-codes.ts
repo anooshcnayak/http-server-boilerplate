@@ -23,6 +23,20 @@ class ErrorCodes {
 		'BODY_VALIDATION_ERROR',
 	);
 
+	static readonly DB_ANOMALY = new ErrorCodes(
+			10_025,
+			'Something went wrong..',
+			'DB_ANOMALY',
+	);
+
+	// Article ERRORS
+
+	static readonly ARTICLE_DOES_NOT_EXIST = new ErrorCodes(
+			11_100,
+			'Event does not exists',
+			'EVENT_DOES_NOT_EXIST',
+	);
+
 	// private to disallow creating other instances of this type
 	private constructor(
 		public code: number,
