@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "ssh://git@repo.gameskraft.in/tmp/api-server-boilerplate.git"
+    "url": "ssh://git@github.com:anooshcnayak/http-server-boilerplate.git"
   },
   "keywords": [
     "http",

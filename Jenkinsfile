@@ -15,11 +15,11 @@ pipeline {
         stage('Build & Create tar') {
             steps {
               nodejs('NodeJS-12.18.3') {
-                  git credentialsId: 'bitbucket-ssh', url: 'ssh://git@repo.gameskraft.in/ateam/api-server-boilerplate.git'
+                  git credentialsId: 'git-ssh', url: ''
                   sh "git checkout ${params.branch}"
                   sh "npm i --only=prod"
                   sh "npm run build"
-                  sh "tar cfz zion.tar *"
+                  sh "tar cfz api-server.tar *"
 				}     
             }
         }
@@ -30,7 +30,7 @@ pipeline {
         }
         stage('Upload tar') {
             steps {
-              	withAWS(role: "arn:aws:iam::997601445690:role/JenkinsEC2Role",region: "ap-south-1", roleSessionName: "jenkins-at-prod") {
+              	withAWS(role: "",region: "ap-south-1", roleSessionName: "") {
                 	sh "./scripts/upload.sh ${params.environment}"
             	}
         	}
